@@ -1,0 +1,46 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: oauth
+          uri: lb://reliable-wechat-central-controller
+          order: 0
+          predicates:
+            - Path=/oauth/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+            - AddResponseHeader=X-Response-Default-Foo, Default-Bar
+            - RemoveRequestHeader=Origin
+            - name: Hystrix
+              args:
+                name: fallbackcmd
+                fallbackUri: forward:/fallback/wechat/oauth
+        - id: messenger
+          uri: lb://reliable-wechat-messenger
+          order: 0
+          predicates:
+            - Path=/oauth/**
+            - Method=POST
+          filters:
+            - StripPrefix=1
+            - AddResponseHeader=X-Response-Default-Foo, Default-Bar
+            - RemoveRequestHeader=Origin
+            - name: Hystrix
+              args:
+                name: fallbackcmd
+                fallbackUri: forward:/fallback/wechat/messenger
+        - id: oauthjwt
+          uri: lb://reliable-wechat-oauth-jwt
+          order: 0
+          predicates:
+            - Path=/oauthjwt/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+            - AddResponseHeader=X-Response-Default-Foo, Default-Bar
+            - RemoveRequestHeader=Origin
+            - name: Hystrix
+              args:
+                name: fallbackcmd
+                fallbackUri: forward:/fallback/wechat/oauth
