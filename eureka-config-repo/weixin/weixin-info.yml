@@ -1,7 +1,7 @@
 wechat:
-  appid: wxee59e72d3dbc4420
-  appsecret: 744071bffd7bf4f2fdb96a109b348853
-  token: xarchgateway
+  appid: wx90f8211e59a6bc63
+  appsecret: e29331a2f5e00c9a122befffadb0faba
+  token: wechattoken
   jwt:
     key: HI1B1hhXHApOgRy9xUfnKBmHXfm7j4sB83J402qT
   pay:
